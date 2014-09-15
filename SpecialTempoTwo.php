@@ -116,12 +116,14 @@ function loadTempoTwoData() {
 //list out all the ppl
 //Map names to ppl ids
 //JERIMEE => 5697,LINDSAY => 10219
+// You will need to find the ids of your
+// ppl and then put in their names
 $mypplnames = array(
-5697 => "Jerimee",
-10219 => "LindSAY",
-9438 => "Blake",
+5697 => "Joe",
+10219 => "Linda",
+9438 => "Bob",
 9182 => "Nicole",
-9437 => "Katie",
+9437 => "Kate",
 9083 => "unknown",
 6651 => "unknown",
 9080 => "unknown",
