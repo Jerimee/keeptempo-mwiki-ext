@@ -16,114 +16,141 @@ class SpecialTempoTwo extends SpecialPage {
 }
 
 function loadTempoTwoData() {
-
-     // Map project IDs to Project Names
-     define("ANC", "17933");
-     define("BMB", "11043");
-     define("CC", "20893");
-     define("ISS", "11446");
-     define("MVFR", "24757");
-     define("SUPGV", "26161");
-
-     define("AWL", "31593");
-     define("VIC", "27109");
-     define("DGB", "33503");
-     define("HAN", "33505");
-     define("PB", "28954");
-     define("WCWC", "33907");
-     define("TOTAL", "0"); 
-     define("FON", "28925");
-     define("OBO", "26239");
-     define("LAGAY", "29147");
-     define("BLD", "33286");
-     define("ARC", "33611");
-     define("FDN", "32009");
-     define("CMOB", "32005");
-
-
-     $projects = array(
-          ANC => 0,
-          BMB => 0,
-          CC => 0,
-          ISS => 0,
-          MVFR => 0,
-          SUPGV => 0,
-          AWL => 0,
-          VIC => 0,
-          DGB => 0,
-          HAN => 0,
-          PB => 0,
-          WCWC => 0,
-          TOTAL => 0,
-
-          FON => 0,
-          OBO => 0,
-          LAGAY => 0,
-          FDN => 0,
-          BLD => 0,
-          ARC => 0,
-
-          CMOB => 0,
-     );
-
-     // Set up retainers
-     $retAmount = array(
-          // Total 
-          TOTAL => 0,
-
-          // Actual adjusted retainer numbers for the current month
-          ANC => 35,
-          BMB => 10,
-          CC  => 55,
-          ISS => 60,
-          MVFR => 52,
-          SUPGV => 45,
-          AWL => 17,
-          VIC => 29,
-          DGB => 16,
-          HAN => 10,
-          PB => 7,
-          WCWC => 10,
-          FON => 17,
-          OBO => 5, 
-          LAGAY => 45.5,
+/*
+     TODO: Restructure the program to use this format
      
-          CMOB => 75,
+     $projects = array(
+          "ANC" => array(
+               "project_id" => 17933,
+               "retAmount" => 30,
+               "retLast" => 20,
+               "hours" => 0,
+          ),
+     );
+*/
+
+
+
+$myprojects = array(
+          "anc" => array(
+               "project_id" => 17933,
+               "retAmount" => 44,
+               "retLast" => 20,
+               "hours" => 0,
+               "report_id" => 23742,
+          ),
+          "bmb" => array(
+               "project_id" => 11043,
+               "retAmount" => 10,
+               "retLast" => 10,
+               "hours" => 0,
+               "report_id" => 23582,
+          ),
+          "cc" => array(
+               "project_id" => 20893,
+               "retAmount" => 39,
+               "retLast" => 45,
+               "hours" => 0,
+               "report_id" => 28622,
+          ),
+          "iss" => array(
+               "project_id" => 11446,
+               "retAmount" => 50,
+               "retLast" => 50,
+               "hours" => 0,
+               "report_id" => 23582,
+          ),
+          "mvfr" => array(
+               "project_id" => 24757,
+               "retAmount" => 15,
+               "retLast" => 12,
+               "hours" => 0,
+               "report_id" => 23582,
+          ),
+          "supgv" => array(
+               "project_id" => 26161,
+               "retAmount" => 49,
+               "retLast" => 50,
+               "hours" => 0,
+               "report_id" => 23582,
+          ),
+          "awl" => array(
+               "project_id" => 31593,
+               "retAmount" => 33,
+               "retLast" => 20,
+               "hours" => 0,
+               "report_id" => 23582,
+          ),
+          "vic" => array(
+               "project_id" => 27109,
+               "retAmount" => 9,
+               "retLast" => 10,
+               "hours" => 0,
+               "report_id" => 23582,
+          ),
+          "dgb" => array(
+               "project_id" => 33503,
+               "retAmount" => 20,
+               "retLast" => 16,
+               "hours" => 0,
+               "report_id" => 23582,
+          ),
+          "han" => array(
+               "project_id" => 33505,
+               "retAmount" => 5,
+               "retLast" => 10,
+               "hours" => 0,
+               "report_id" => 23582,
+          ),
+          "pb" => array(
+               "project_id" => 28954,
+               "retAmount" => 10,
+               "retLast" => 10,
+               "hours" => 0,
+               "report_id" => 23582,
+          ),
+          "wcwc" => array(
+               "project_id" => 33907,
+               "retAmount" => 10,
+               "retLast" => 10,
+               "hours" => 0,
+               "report_id" => 23582,
+          ),
      );
 
-     // 
-     $retLast = array(
-          TOTAL => 0,
+$mylistofprojects = array(17933,11043,20893,11446,24757,26161,31593,27109,33503,33505,28954,33907); 
+     // Map project IDs to Project Names
 
-          ANC => 20,
-          BMB => 10,
-          CC => 45,
-          ISS => 50,
-          MVFR => 12,
-          SUPGV => 50,
-          AWL => 20,
-          VIC => 10,
-          DGB => 16,
-          HAN => 10,
-          PB => 10,
-          WCWC => 10,
-          FON => 0,
-          OBO => 0,
-          LAGAY => 0,
-          CMOB => 0,
-     );
+     //define("anc", "17933");
+     //define("bmb", "11043");
+     //define("cc", "20893");
+     //define("iss", "11446");
+     //define("mvfr", "24757");
+     //define("supgv", "26161");
+     //define("awl", "31593");
+     //define("vic", "27109");
+     //define("dgb", "33503");
+     //define("han", "33505");
+     //define("pb", "28954");
+     //define("wcwc", "33907");
+     //foreach ($myprojects as $key => $value) {
+     //     $keyString = (string)$key;
+     //     define($keyString, $value['project_id']);
+     //     echo "key =" . $key . "<br>";
+     //     echo "pid =" .  $value['project_id'] . "<br>";
+     //}
+
+     $projects = array();
 
 //list out all the ppl
 //Map names to ppl ids
 //JERIMEE => 5697,LINDSAY => 10219
-// You will need to find the ids of your
-// ppl and then put in their names
 $mypplnames = array(
-5697 => "Joe",
-10219 => "Linda",
-9438 => "Bob",
+5697 => "Jerimee",
+10219 => "Lindsay",
+9438 => "Blake",
 9182 => "Nicole",
-9437 => "Kate",
+9437 => "Katie",
 9083 => "unknown",
 6651 => "unknown",
 9080 => "unknown",
@@ -151,18 +178,15 @@ foreach ($mypplkeys as &$value) {
     $mystring .= '<user-id type="integer">' . $value . '</user-id>' . PHP_EOL;
 }
      // Get the URL of the query, note that we have to run these as background tasks
-     // replace STUB with your instance of keeptempo
-     $server = 'https://STUB.keeptempo.com/reports/search';
+     $server = $temposlug . 'search';
 
      // Init cURL
      $ch = curl_init($server);
  
      // Create our query
-     // you'll need to replace tags with your specific tags
      $data_string = '<?xml version="1.0" encoding="UTF-8"?>
      <context>
           <interval>alltime</interval>
-          <bar>foo</bar> <!-- does it ignore gibberish? -->
           <user-ids type="array">
                <!-- explicitly list each user one by one -->
                ' . $mystring . '
@@ -197,14 +221,26 @@ foreach ($mypplkeys as &$value) {
      $data = json_decode($body);
      $hours = 0;
 
-     // Grab the hours from the tempo report
-     for($i = 0; $i < count($data)-1; $i++) {
-
-          if( array_key_exists($data[$i]->project_id, $projects) ) {
-               $projects[$data[$i]->project_id] += $data[$i]->hours;
-               $hours += $data[$i]->hours;
+     for($i = 0; $i < count($data) - 1; $i++) {
+          $match = array_search($data[$i]->project_id, $mylistofprojects);
+          if ($match !== FALSE) {
+               $whatwegot = $mylistofprojects[$match];
+               $thematchedprojectid = $data[$i]->project_id;
+               //echo $i . " -> " . $thematchedprojectid . " oh and " . $whatwegot . " and um " . $match . "<br>";
+               foreach ($myprojects as $mykey => $value) {
+                    //for everything in myprojects
+                    //look for a key with $thematchedprojectid
+                    if ($value['project_id'] == $thematchedprojectid) {
+                      //echo $mykey . '<br>';
+                      $myprojects[$mykey]['hours'] += $data[$i]->hours;
+                      //echo $myprojects[$mykey]['hours'] . '<br><br>';
+                    }
+               }
           }
      }
+
+      //echo "<pre>"; print_r($myprojects); echo "</pre>";
+
 
 /* here we try to get output on tempo notes for given individuals */
 global $wgOut;
@@ -312,90 +348,62 @@ $wgOut->addHTML("</div><!-- .personentry -->");
           </style>
           ');
 
-     $retLast[TOTAL] = $retLast[ANC] + $retLast[BMB] + $retLast[CC] + $retLast[ISS] + $retLast[MVFR] + $retLast[SUPGV] + $retLast[AWL] + $retLast[VIC] + $retLast[DGB] + $retLast[HAN] + $projects[PB] + $projects[WCWC]; 
-     $retAmount[TOTAL] = $retAmount[ANC] + $retAmount[BMB] + $retAmount[CC] + $retAmount[ISS] + $retAmount[MVFR] + $retAmount[SUPGV] + $retAmount[AWL] + $retAmount[VIC] + $retAmount[DGB] + $retAmount[HAN] + $projects[PB] + $projects[WCWC]; 
-     $projects[TOTAL] += $projects[ANC] + $projects[BMB] + $projects[CC] + $projects[ISS] + $projects[MVFR] + $projects[SUPGV] + $projects[AWL] + $projects[VIC] + $projects[DGB] + $projects[HAN] + $projects[PB] + $projects[WCWC]; 
+     foreach ($myprojects as $key => $value) {
+          // $value['hours']
+          //echo "<pre>"; print_r($myprojects); echo "</pre>";
+          if($key !== false) {
+               drawTempoTwoTherms($value['retAmount'], $value['project_id'], $value['hours'], $key);
+               //echo "<pre> key is "; echo $key; echo "</pre>";
+               //echo "<pre>"; echo $value['retAmount']; echo "</pre>";
+               //echo "<pre>"; echo $value['project_id']; echo "</pre>";
+               //echo "<pre>"; echo $value['hours']; echo "</pre>";
+          }
+     }
 
-
-     drawTempoTwoThermometers($projects, $retAmount);
      //$wgOut->addHTML('<div style="background-color:pink">x</div>');
-     $wgOut->addHTML("<h2>Retainer Clients</h2>");
+     $wgOut->addHTML("<h2>Projects</h2>");
      //                                                                                             23582 is the standard report URL placeholder
      //           projects   displayname client   id_name    standmnth           this month         report URL 
-     outputTempoTwoClient($projects, "ActionNC",     ANC,       "anc",    $retLast[ANC],     $retAmount[ANC],    "23742");
-     outputTempoTwoClient($projects, "BMB",     BMB,       "bmb",    $retLast[BMB],     $retAmount[BMB],    "23582");
-     outputTempoTwoClient($projects, "CC",      CC,        "cc",     $retLast[CC],      $retAmount[CC],     "23582");
-     outputTempoTwoClient($projects, "ISS",     ISS,       "iss",    $retLast[ISS],     $retAmount[ISS],    "26123");
-     outputTempoTwoClient($projects, "MVFR",    MVFR,      "mvfr",   $retLast[MVFR],    $retAmount[MVFR],   "23582");
-     outputTempoTwoClient($projects, "SUPGV",   SUPGV,     "supgv",  $retLast[SUPGV],   $retAmount[SUPGV],  "23582");
-     outputTempoTwoClient($projects, "AWL",     AWL,       "awl",    $retLast[AWL],     $retAmount[AWL],    "33102");
-     outputTempoTwoClient($projects, "VIC",     VIC,       "vic",    $retLast[VIC],     $retAmount[VIC],    "23582");
-     outputTempoTwoClient($projects, "DGB",     DGB,       "dgb",    $retLast[DGB],     $retAmount[DGB],    "33960");
-     outputTempoTwoClient($projects, "HAN",     HAN,       "han",    $retLast[HAN],     $retAmount[HAN],    "33960");
-     outputTempoTwoClient($projects, "PB",      PB,        "pb",     $retLast[PB],      $retAmount[PB],     "23582");
-     outputTempoTwoClient($projects, "WCWC",    WCWC,      "wcwc",   $retLast[WCWC],    $retAmount[WCWC],   "34655");
-
-     $wgOut->addHTML("<h3>Total for Retainer Clainers</h3>");
-     $wgOut->addHTML("<div><em>Left number is for a typical month, and the right number is the actual for this month.</em></div>");
-
-     outputTempoTwoClient($projects, "THEORY",   TOTAL,     "total",  $retLast[TOTAL],   $retAmount[TOTAL],    "23582");
-
-
-     $wgOut->addHTML("<h2>Pre-pay Clients</h2>");
-
-     outputTempoTwoClient($projects, "FON",          FON,      "fon",    $retLast[FON],      $retAmount[FON],    "28740");
-     outputTempoTwoClient($projects, "OBO",          OBO,      "obo",    $retLast[OBO],      $retAmount[OBO],    "31103");
-     outputTempoTwoClient($projects, "LAGAY",        LAGAY,    "lagay",  $retLast[LAGAY],    $retAmount[LAGAY],  "23582");
-
-     $wgOut->addHTML("<h2>Other Clients</h2>");
-
-     outputTempoTwoClient($projects, "CMOB",          CMOB,      "cmob",    $retLast[CMOB],      $retAmount[CMOB],    "34205");
-
-     $wgOut->addHTML('To change the hours on this report, you need to edit the SpecialTempoTwo.php file in the extension directory /extensions/Tempo<br>Edit the definition list and two arrays below it');
+     //outputTempoTwoClient($projects, "ActionNC",     ANC,       "anc",    $retLast[ANC],     $retAmount[ANC],    "23742");
+     //outputTempoTwoClient($projects, "BMB",     BMB,       "bmb",    $retLast[BMB],     $retAmount[BMB],    "23582");
+     //outputTempoTwoClient($projects, "CC",      CC,        "cc",     $retLast[CC],      $retAmount[CC],     "23582");
+     //outputTempoTwoClient($projects, "ISS",     ISS,       "iss",    $retLast[ISS],     $retAmount[ISS],    "26123");
+     //outputTempoTwoClient($projects, "MVFR",    MVFR,      "mvfr",   $retLast[MVFR],    $retAmount[MVFR],   "23582");
+     //outputTempoTwoClient($projects, "SUPGV",   SUPGV,     "supgv",  $retLast[SUPGV],   $retAmount[SUPGV],  "23582");
+     //outputTempoTwoClient($projects, "AWL",     AWL,       "awl",    $retLast[AWL],     $retAmount[AWL],    "33102");
+     //outputTempoTwoClient($projects, "VIC",     VIC,       "vic",    $retLast[VIC],     $retAmount[VIC],    "23582");
+     //outputTempoTwoClient($projects, "DGB",     DGB,       "dgb",    $retLast[DGB],     $retAmount[DGB],    "33960");
+     //outputTempoTwoClient($projects, "HAN",     HAN,       "han",    $retLast[HAN],     $retAmount[HAN],    "33960");
+     //outputTempoTwoClient($projects, "PB",      PB,        "pb",     $retLast[PB],      $retAmount[PB],     "23582");
+     //outputTempoTwoClient($projects, "WCWC",    WCWC,      "wcwc",   $retLast[WCWC],    $retAmount[WCWC],   "34655");
+     foreach ($myprojects as $key => $value) {
+          outputTempoTwoProject($key,$value['project_id'],$value['retLast'],$value['retAmount'],$value['hours'],$value['report_id']);
+     }
+     $wgOut->addHTML('To change the hours on this report, you need to edit the SpecialTempoTwo.php file.');
 }
 //end loadTempoTwoData()
 
-function outputTempoTwoClient($projects, $display_name, $client, $id_name, $normal, $this_month, $mtd_rept) {
+function outputTempoTwoProject($key, $project_id, $retLast, $retAmount, $hours, $mtd_rept) {
      global $wgOut;
-
-     $wgOut->addHTML('<div id="' . $id_name . '"><div class="left-column"><div class="name"><a href="https://STUB.keeptempo.com/reports/' . $mtd_rept . '">' . $display_name . '</a></div><div class="normal">' . $normal . '</div></div><div class="bar"><div class="hours">' . $projects[$client] . '</div><div class="bar-amount" id="' . $id_name . '-bar"></div></div><div class="thisMonth">' . $this_month . '</div></div><div style="clear:both"></div>');
+     include 'cred.inc'; // has the slug we need
+     $wgOut->addHTML('<div id="' . $key . '"><div class="left-column"><div class="name"><a href="' . $temposlug . $mtd_rept . '">' . $key . '</a></div><div class="normal">' . $retLast . '</div></div><div class="bar"><div class="hours">' . $hours . '</div><div class="bar-amount" id="' . $key . '-bar"></div></div><div class="thisMonth">' . $retAmount . '</div></div><div style="clear:both"></div>');
 }
 
 
-function drawTempoTwoThermometers($projects, $retAmount) {
+function drawTempoTwoTherms($retAmount,$project_id,$hours,$name) {
      global $wgOut;
 
      $wgOut->addHTML('<script>$(document).ready(function() {');
-
-     calculateTempoTwoBar($projects, $retAmount, ANC,     "anc");
-     calculateTempoTwoBar($projects, $retAmount, BMB,     "bmb");
-     calculateTempoTwoBar($projects, $retAmount, CC,      "cc");
-     calculateTempoTwoBar($projects, $retAmount, ISS,     "iss");
-     calculateTempoTwoBar($projects, $retAmount, MVFR,    "mvfr");
-     calculateTempoTwoBar($projects, $retAmount, SUPGV,   "supgv");
-     calculateTempoTwoBar($projects, $retAmount, AWL,     "awl");
-     calculateTempoTwoBar($projects, $retAmount, VIC,     "vic");
-     calculateTempoTwoBar($projects, $retAmount, DGB,     "dgb");
-     calculateTempoTwoBar($projects, $retAmount, HAN,     "han");
-     calculateTempoTwoBar($projects, $retAmount, PB,      "pb");
-     calculateTempoTwoBar($projects, $retAmount, WCWC,    "wcwc");
-
-     calculateTempoTwoBar($projects, $retAmount, TOTAL,   "total");
-
-     calculateTempoTwoBar($projects, $retAmount, FON,     "fon");
-     calculateTempoTwoBar($projects, $retAmount, OBO,     "obo");
-     calculateTempoTwoBar($projects, $retAmount, LAGAY,   "lagay");
-
-     calculateTempoTwoBar($projects, $retAmount, CMOB,    "cmob");
-
+     calcTempoTwoBar($retAmount, $project_id, $hours,$name);
      $wgOut->addHTML('});</script>');
 }
 
 
-function calculateTempoTwoBar($projects, $retAmount, $client, $id_name) {
+function calcTempoTwoBar($retAmount, $project_id, $hours,$name) {
      global $wgOut;
-
-     $perc = $projects[$client] / $retAmount[$client] * 100;
+     
+     // $hours = $myprojects[$key];
+     $perc =  $hours / $retAmount * 100;
 
      if($perc > 100)
           $perc = 100;
@@ -408,15 +416,26 @@ function calculateTempoTwoBar($projects, $retAmount, $client, $id_name) {
           $color = "#447b44";
 
      $wgOut->addHTML('
-          var ' . $id_name . '_perc = "' . $perc . '%";
+          var ' . $name . '_perc = "' . $perc . '%";
 
-          console.log(' . $client . ');
-          console.log(' . $projects[$client] . ');
-          console.log(' . $retAmount[$client] . ');
-          console.log(' . $id_name . '_perc);
+          console.log(' . $project_id . ');
+          console.log(' . $hours. ');
+          console.log(' . $retAmount . ');
+          console.log(' . $name . '_perc);
           console.log("--------------------------");
 
-          $("#' . $id_name . '-bar").width(' . $id_name . '_perc);
-          $("#' . $id_name . '-bar").css("background-color", "' . $color .'");
+          $("#' . $name . '-bar").width(' . $name . '_perc);
+          $("#' . $name . '-bar").css("background-color", "' . $color .'");
      ');
+}
+
+/* no comments makes this useless */
+function searcharray($value, $key, $array) {
+   foreach ($array as $k => $val) {
+     if (array_key_exists($key, $val))
+          if ($val[$key] == $value) {
+                return $k;
+          }
+   }
+   return null;
 }
