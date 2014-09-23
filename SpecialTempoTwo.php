@@ -16,22 +16,8 @@ class SpecialTempoTwo extends SpecialPage {
 }
 
 function loadTempoTwoData() {
-/*
-     TODO: Restructure the program to use this format
-     
-     $projects = array(
-          "ANC" => array(
-               "project_id" => 17933,
-               "retAmount" => 30,
-               "retLast" => 20,
-               "hours" => 0,
-          ),
-     );
-*/
 
-
-
-$myprojects = array(
+     $myprojects = array(
           "anc" => array(
                "project_id" => 17933,
                "retAmount" => 44,
