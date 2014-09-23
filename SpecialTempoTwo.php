@@ -116,58 +116,38 @@ $myprojects = array(
                "hours" => 0,
                "report_id" => 23582,
           ),
+          "ro" => array(
+               "project_id" => 17688,
+               "retAmount" => 100,
+               "retLast" => 100,
+               "hours" => 0,
+               "report_id" => 23582,
+               "formalname" => "Rchir Outreach",
+          ),
+          "fdn" => array(
+               "project_id" => 32007,
+               "retAmount" => 100,
+               "retLast" => 100,
+               "hours" => 0,
+               "report_id" => 25860,
+               "formalname" => "FDN Support",
+          ),
      );
 
-$mylistofprojects = array(17933,11043,20893,11446,24757,26161,31593,27109,33503,33505,28954,33907); 
-     // Map project IDs to Project Names
-
-     //define("anc", "17933");
-     //define("bmb", "11043");
-     //define("cc", "20893");
-     //define("iss", "11446");
-     //define("mvfr", "24757");
-     //define("supgv", "26161");
-     //define("awl", "31593");
-     //define("vic", "27109");
-     //define("dgb", "33503");
-     //define("han", "33505");
-     //define("pb", "28954");
-     //define("wcwc", "33907");
-     //foreach ($myprojects as $key => $value) {
-     //     $keyString = (string)$key;
-     //     define($keyString, $value['project_id']);
-     //     echo "key =" . $key . "<br>";
-     //     echo "pid =" .  $value['project_id'] . "<br>";
-     //}
+     $mylistofkeys = array("anc","bmb","cc");
+     $mylistofprojects = array(32007,17688,17933,11043,20893,11446,24757,26161,31593,27109,33503,33505,28954,33907); 
 
      $projects = array();
 
 //list out all the ppl
 //Map names to ppl ids
-//JERIMEE => 5697,LINDSAY => 10219
-$mypplnames = array(
-5697 => "Jerimee",
-10219 => "Lindsay",
-9438 => "Blake",
-9182 => "Nicole",
-9437 => "Katie",
-9083 => "unknown",
-6651 => "unknown",
-9080 => "unknown",
-9098 => "unknown",
-7767 => "unknown",
-9310 => "unknown",
-9365 => "unknown",
-8263 => "unknown",
-8742 => "unknown",
-8809 => "uh",
-9068 => "unknown",
-9317 => "unknown",
-6657 => "unknown",
-9400 => "unknown",
-7765 => "unknown",
-10269 => "whoisit",
-);
+// Amy => 5697, Bob => 10219
+// example:
+// $mypplnames = array(
+//   5697 => "Amy",
+//   10219 => "Bob"
+// );
+include 'ppl.inc';
 
 global $mystring;
 $mypplkeys = array_keys($mypplnames);
@@ -239,7 +219,6 @@ foreach ($mypplkeys as &$value) {
           }
      }
 
-      //echo "<pre>"; print_r($myprojects); echo "</pre>";
 
 
 /* here we try to get output on tempo notes for given individuals */
@@ -250,26 +229,45 @@ global $wgOut;
 $myppl = array(5697,10219,9438,9182,9437);          
 $foundids = array();
 
+$myprj = array();    
+
+
 // TODO: only show the active clocks, instead of just the latest in time
 for($i = 0; $i < count($data)-1; $i++) {
-
 	if( in_array($data[$i]->user_id, $myppl) ) {
 		//get the id found
 		$pplid = $data[$i]->user_id;
-    
 		//do the rest of this only if our current id aint already been found
 		if( in_array($data[$i]->user_id, $foundids) ) {
       //do nothing
 		} else {
 
 			//$projects[$data[$i]->project_id] += $data[$i]->hours;
-			$mytag = $data[$i]->notes;
+			$mytag      = $data[$i]->notes;
+               $myprojid = $data[$i]->project_id;
+
 			//$mytag += $data[$i]->hours;
 			$updated = $data[$i]->updated_at;
 			$isactive = $data[$i]->is_timing;
                if ($isactive) {
+                    // get projectid name
+                         $apid = $myprojid;
+                         $count = 0;
+                         $myprojectname = "";
+                         foreach ($myprojects as $key => $value) {
+                              while (($value['project_id'] == $apid) && ($count!=1)) {
+                                   if (isset($value['formalname'])) {
+                                        $myprojectname = $value['formalname'];
+                                   } else {
+                                        $myprojectname = $key;
+                                   }
+                                   $count = 1;
+                              }
+                         }
+
                     $wgOut->addHTML("<span class=\"personhdr\">" . $mypplnames[$pplid] . " (" . $pplid . ")</span>");
                     $wgOut->addHTML("<div class=\"personentry\">");
+                    $wgOut->addHTML($myprojectname . " (" . $myprojid . ") <br>");
                     $activeoutput = "<span class=\"green\">clock is active</span>";
                     $foundids[] = $pplid;
                     $wgOut->addHTML($activeoutput . ": ");
@@ -282,15 +280,6 @@ for($i = 0; $i < count($data)-1; $i++) {
                     //do nothing
                     //$activeoutput = "<span class=\"red\" title=\"typically this is because a older clock has been restarted\">clock ain't active</span>";
                }
-
-
-			//add it to a list of ids found because
-			//as soon as I find a person id I want to stop looking
-			//for instances of that id and move on to the next id
-			//$foundids[] = $pplid;
-			//$wgOut->addHTML("<pre>" . $mystring);
-			//$wgOut->addHTML(implode(",",$foundids));
-			//$wgOut->addHTML("</pre><br>");
 		}
 	}
 }
@@ -362,20 +351,7 @@ $wgOut->addHTML("</div><!-- .personentry -->");
 
      //$wgOut->addHTML('<div style="background-color:pink">x</div>');
      $wgOut->addHTML("<h2>Projects</h2>");
-     //                                                                                             23582 is the standard report URL placeholder
-     //           projects   displayname client   id_name    standmnth           this month         report URL 
-     //outputTempoTwoClient($projects, "ActionNC",     ANC,       "anc",    $retLast[ANC],     $retAmount[ANC],    "23742");
-     //outputTempoTwoClient($projects, "BMB",     BMB,       "bmb",    $retLast[BMB],     $retAmount[BMB],    "23582");
-     //outputTempoTwoClient($projects, "CC",      CC,        "cc",     $retLast[CC],      $retAmount[CC],     "23582");
-     //outputTempoTwoClient($projects, "ISS",     ISS,       "iss",    $retLast[ISS],     $retAmount[ISS],    "26123");
-     //outputTempoTwoClient($projects, "MVFR",    MVFR,      "mvfr",   $retLast[MVFR],    $retAmount[MVFR],   "23582");
-     //outputTempoTwoClient($projects, "SUPGV",   SUPGV,     "supgv",  $retLast[SUPGV],   $retAmount[SUPGV],  "23582");
-     //outputTempoTwoClient($projects, "AWL",     AWL,       "awl",    $retLast[AWL],     $retAmount[AWL],    "33102");
-     //outputTempoTwoClient($projects, "VIC",     VIC,       "vic",    $retLast[VIC],     $retAmount[VIC],    "23582");
-     //outputTempoTwoClient($projects, "DGB",     DGB,       "dgb",    $retLast[DGB],     $retAmount[DGB],    "33960");
-     //outputTempoTwoClient($projects, "HAN",     HAN,       "han",    $retLast[HAN],     $retAmount[HAN],    "33960");
-     //outputTempoTwoClient($projects, "PB",      PB,        "pb",     $retLast[PB],      $retAmount[PB],     "23582");
-     //outputTempoTwoClient($projects, "WCWC",    WCWC,      "wcwc",   $retLast[WCWC],    $retAmount[WCWC],   "34655");
+
      foreach ($myprojects as $key => $value) {
           outputTempoTwoProject($key,$value['project_id'],$value['retLast'],$value['retAmount'],$value['hours'],$value['report_id']);
      }
