@@ -1,0 +1,58 @@
+/* css 2014-10-06 */
+
+.mw-special-Tempotwo #firstHeading {
+     color:#CCCCCC;
+     font-size:0.4em;
+}
+
+               .mw-special-Tempotwo .left-column {
+                    float: left;
+                    text-align: center;
+                    width: 65px;
+               }
+
+               .mw-special-Tempotwo .bar {
+                    float: left;
+                    font-size: 1.5em;
+                    margin: 5px 15px 15px;
+                    width: 400px;
+                    text-align: center;
+                    border: 1px solid #000;
+                    height: 25px;
+                    position: relative;
+               }
+
+               .mw-special-Tempotwo .bar-amount {
+                    height: 25px;
+                    background-color: #369;
+               }
+
+               .mw-special-Tempotwo .hours {
+                    position: absolute;
+                    top: 5px;
+                    width: 400px;
+                    text-align: center;
+               }
+
+               .mw-special-Tempotwo .thisMonth {
+                    font-size: 1.5em;
+                    margin-top: 10px;
+                    float: left;
+                    width: 35px;
+                    text-align: center;
+               }
+
+               .mw-special-Tempotwo .name {
+                    font-size: 0.8em;
+                    background-color: #EEEEEE;
+               }
+
+.mw-special-Tempotwo .left-column .normal {
+     color:#447B44;
+     font-size:0.8em;
+}
+
+#whatmonth {
+     font-size:0.4em;
+     color:#555555;
+}

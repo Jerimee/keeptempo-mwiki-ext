@@ -16,8 +16,13 @@ $wgExtensionCredits[ 'specialpage' ][] = array(
         'version' => '0.0.2',
 );
  
-$wgAutoloadClasses[ 'SpecialTempoTwo' ] = __DIR__ . '/SpecialTempoTwo.php'; # Location of the SpecialMyExtension class (Tell MediaWiki to load this file)
-$wgExtensionMessagesFiles[ 'TempoTwo' ] = __DIR__ . '/tempotwo.i18n.php'; # Location of a messages file (Tell MediaWiki to load this file)
-$wgExtensionMessagesFiles[ 'TempoTwoAlias' ] = __DIR__ . '/tempotwo.alias.php'; # Location of an aliases file (Tell MediaWiki to load this file)
-$wgSpecialPages[ 'TempoTwo' ] = 'SpecialTempoTwo'; # Tell MediaWiki about the new special page and its class name
-$wgSpecialPageGroups[ 'TempoTwo' ] = 'other';
+$wgAutoloadClasses[ 'SpecialTempotwo' ] = __DIR__ . '/SpecialTempotwo.php'; # Location of the SpecialMyExtension class (Tell MediaWiki to load this file)
+$wgExtensionMessagesFiles[ 'Tempotwo' ] = __DIR__ . '/tempotwo.i18n.php'; # Location of a messages file (Tell MediaWiki to load this file)
+$wgExtensionMessagesFiles[ 'TempotwoAlias' ] = __DIR__ . '/tempotwo.alias.php'; # Location of an aliases file (Tell MediaWiki to load this file)
+$wgSpecialPages[ 'Tempotwo' ] = 'SpecialTempotwo'; # Tell MediaWiki about the new special page and its class name
+$wgSpecialPageGroups[ 'Tempotwo' ] = 'other';
+
+$wgResourceModules['Tempotwo'] = array(
+	'localBasePath'=>__DIR__,
+	'styles'=>'/modules/tempostyles.css',
+);

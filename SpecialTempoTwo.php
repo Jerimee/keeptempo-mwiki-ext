@@ -17,28 +17,26 @@ class SpecialTempoTwo extends SpecialPage {
 
 function loadTempoTwoData() {
 
-include 'projects.inc';
+     include 'projects.inc';
+     $projects = array();
 
-$projects = array();
+     //list out all the ppl
+     // example:
+     // $mypplnames = array(
+     //   5697 => "Amy",
+     //   10219 => "Bob",
+     //   9182 => "Nicole"
+     // );
+     include 'ppl.inc';
 
-//list out all the ppl
-//Map names to ppl ids
-// Amy => 5697, Bob => 10219
-// example:
-// $mypplnames = array(
-//   5697 => "Amy",
-//   10219 => "Bob"
-// );
-include 'ppl.inc';
+     global $mystring;
+     $mypplkeys = array_keys($mypplnames);
 
-global $mystring;
-$mypplkeys = array_keys($mypplnames);
+     include 'cred.inc';
 
-include 'cred.inc';
-
-foreach ($mypplkeys as &$value) {
-    $mystring .= '<user-id type="integer">' . $value . '</user-id>' . PHP_EOL;
-}
+     foreach ($mypplkeys as &$value) {
+          $mystring .= '<user-id type="integer">' . $value . '</user-id>' . PHP_EOL;
+     }
      // Get the URL of the query, note that we have to run these as background tasks
      $server = $temposlug . 'search';
 
@@ -101,59 +99,15 @@ foreach ($mypplkeys as &$value) {
           }
      }
 
-global $wgOut;
+     global $wgOut;
 
-     // Add our CSS
-     $wgOut->addHTML('
-          <style>
-               .left-column {
-                    float: left;
-                    text-align: center;
-                    width: 65px;
-               }
-
-               .bar {
-                    float: left;
-                    font-size: 1.5em;
-                    margin: 5px 15px 15px;
-                    width: 400px;
-                    text-align: center;
-                    border: 1px solid #000;
-                    height: 25px;
-                    position: relative;
-               }
-
-               .bar-amount {
-                    height: 25px;
-                    background-color: #369;
-               }
-
-               .hours {
-                    position: absolute;
-                    top: 5px;
-                    width: 400px;
-                    text-align: center;
-               }
-
-               .thisMonth {
-                    font-size: 1.5em;
-                    margin-top: 10px;
-                    float: left;
-                    width: 35px;
-                    text-align: center;
-               }
-
-               .name {
-                    font-size: 0.8em;
-                    background-color: #EEEEEE;
-               }
-          </style>
-          ');
-
+     // css
+     $styleurl = "/extensions/Tempotwo/modules/tempostyles.css";
+     $wgOut->addHTML('<link type="text/css" rel="stylesheet" media="all" href="' . $styleurl . '" /><!-- dumb -->');
      // draw teh thermometers
      foreach ($myprojects as $key => $value) {
           if($key !== false) {
-               drawTempoTwoTherms($value['retAmount'], $value['project_id'], $value['hours'], $key);
+               drawTempotwoTherms($value['retAmount'], $value['project_id'], $value['hours'], $key,$value['nicolePortion']);
           }
      }
 
@@ -171,8 +125,9 @@ global $wgOut;
                $myprojects[$value]['hours'],
                $myprojects[$value]['report_id'],
                $myprojects[$value]['month'],
-               $myprojects[$value]['formalname']
-               );
+               $myprojects[$value]['formalname'],
+               $myprojects[$value]['nicolePortion']
+          );
      }
 
      $wgOut->addHTML("<h2>Hourly Projects</h2>");
@@ -187,41 +142,41 @@ global $wgOut;
                $myprojects[$value]['hours'],
                $myprojects[$value]['report_id'],
                $myprojects[$value]['month'],
-               $myprojects[$value]['formalname']
-               );
+               $myprojects[$value]['formalname'],
+               0
+          );
      }
 
      $wgOut->addHTML('To change the hours on this report, you need to edit the SpecialTempoTwo.php file.');
 
 
      $wgOut->addHTML("<h2>People</h2>");
-/* here we try to get output on tempo notes for given individuals */
-//$wgOut->addHTML("<span>glob</span>");
-//$wgOut->addHTML(print_r($data));
-//$wgOut->addHTML(var_dump($data));
-$myppl = array(5697,10219,9438,9182,9437);          
-$foundids = array();
-$myprj = array();    
+     /* here we try to get output on tempo notes for given individuals */
+     //$wgOut->addHTML("<span>glob</span>");
+     //$wgOut->addHTML(print_r($data));
+     //$wgOut->addHTML(var_dump($data));
+     $myppl = array(5697,10219,9438,9182,9437);          
+     $foundids = array();
+     $myprj = array();    
 
-// TODO: only show the active clocks, instead of just the latest in time
-for($i = 0; $i < count($data)-1; $i++) {
-     if( in_array($data[$i]->user_id, $myppl) ) {
-          //get the id found
-          $pplid = $data[$i]->user_id;
-          //do the rest of this only if our current id aint already been found
-          if( in_array($data[$i]->user_id, $foundids) ) {
-      //do nothing
-          } else {
+     // TODO: only show the active clocks, instead of just the latest in time
+     for($i = 0; $i < count($data)-1; $i++) {
+          if( in_array($data[$i]->user_id, $myppl) ) {
+               //get the id found
+               $pplid = $data[$i]->user_id;
+               //do the rest of this only if our current id aint already been found
+               if( in_array($data[$i]->user_id, $foundids) ) {
+                    //do nothing
+               } else {
+                    //$projects[$data[$i]->project_id] += $data[$i]->hours;
+                    $mytag      = $data[$i]->notes;
+                    $myprojid = $data[$i]->project_id;
 
-               //$projects[$data[$i]->project_id] += $data[$i]->hours;
-               $mytag      = $data[$i]->notes;
-               $myprojid = $data[$i]->project_id;
-
-               //$mytag += $data[$i]->hours;
-               $updated = $data[$i]->updated_at;
-               $isactive = $data[$i]->is_timing;
-               if ($isactive) {
-                    // get projectid name
+                    //$mytag += $data[$i]->hours;
+                    $updated = $data[$i]->updated_at;
+                    $isactive = $data[$i]->is_timing;
+                    if ($isactive) {
+                         // get projectid name
                          $apid = $myprojid;
                          $count = 0;
                          $myprojectname = "";
@@ -235,71 +190,127 @@ for($i = 0; $i < count($data)-1; $i++) {
                                    $count = 1;
                               }
                          }
-
-                    $wgOut->addHTML("<span class=\"personhdr\">" . $mypplnames[$pplid] . " (" . $pplid . ")</span>");
-                    $wgOut->addHTML("<div class=\"personentry\">");
-                    $wgOut->addHTML($myprojectname . " (" . $myprojid . ") <br>");
-                    $activeoutput = "<span class=\"green\">clock is active</span>";
-                    $foundids[] = $pplid;
-                    $wgOut->addHTML($activeoutput . ": ");
-                    $wgOut->addHTML($mytag);
-                    $wgOut->addHTML("<br>");
-                    $wgOut->addHTML($updated);
-                    $wgOut->addHTML("");
-                    $wgOut->addHTML("</div><!-- .personentry -->");
-               } else {
-                    //do nothing
-                    //$activeoutput = "<span class=\"red\" title=\"typically this is because a older clock has been restarted\">clock ain't active</span>";
+                         $wgOut->addHTML("<span class=\"personhdr\">" . $mypplnames[$pplid] . " (" . $pplid . ")</span>");
+                         $wgOut->addHTML("<div class=\"personentry\">");
+                         $wgOut->addHTML($myprojectname . " (" . $myprojid . ") <br>");
+                         $activeoutput = "<span class=\"green\">clock is active</span>";
+                         $foundids[] = $pplid;
+                         $wgOut->addHTML($activeoutput . ": ");
+                         $wgOut->addHTML($mytag);
+                         $wgOut->addHTML("<br>");
+                         $wgOut->addHTML($updated);
+                         $wgOut->addHTML("");
+                         $wgOut->addHTML("</div><!-- .personentry -->");
+                    } else {
+                         //do nothing
+                         //$activeoutput = "<span class=\"red\" title=\"typically this is because a older clock has been restarted\">clock ain't active</span>";
+                    }
                }
           }
      }
-}
 
-$wgOut->addHTML("<span class=\"personhdr\">Ppl not found</span>");
-$wgOut->addHTML("<div class=\"personentry\">");
-$bigarray = $myppl;
-$smallarray = $foundids;
-$resultarr = array_diff($bigarray, $smallarray);
-foreach($resultarr as $key => $value) {
-  $wgOut->addHTML($mypplnames[$value] . " | ");
-}
-$wgOut->addHTML("</div><!-- .personentry -->");
-
-$wgOut->addHTML("<h2>Note</h2>");
-$wgOut->addHTML('To change the hours on this report, you need to edit the SpecialTempoTwo.php file.');
+     $wgOut->addHTML("<span class=\"personhdr\">Ppl not found</span>");
+     $wgOut->addHTML("<div class=\"personentry\">");
+     $bigarray = $myppl;
+     $smallarray = $foundids;
+     $resultarr = array_diff($bigarray, $smallarray);
+     foreach($resultarr as $key => $value) {
+          $wgOut->addHTML($mypplnames[$value] . " | ");
+     }
+     $wgOut->addHTML("</div><!-- .personentry -->");
+     $wgOut->addHTML("<h2>Note</h2>");
+     $wgOut->addHTML('To change the hours on this report, you need to edit the SpecialTempotwo.php file.');
+     $wgOut->addHTML("<h2>Nicole</h2>");
+     foreach ($mylistofkeys as $value) {
+          switch($value){
+            case 'cc':
+               $nicole = $myprojects[$value]['nicolePortion'];
+               if ($nicole>0) {
+                    $wgOut->addHTML("<h3>Courage</h3>");
+                    $wgOut->addHTML("<p>Nicole should not have more than " . $nicole . ".</p>");
+                    $nicolex = 0;
+                    $wgOut->addHTML("<p>Nicole has " . $nicolex . ".</p>");
+                    $justNicoleHours = $myprojects[$value]['hours'];
+                    outputTempotwoProjectIndividual(
+                         $value,
+                         $myprojects[$value]['project_id'],
+                         $myprojects[$value]['nicolePortion'],
+                         $justNicoleHours,
+                         $myprojects[$value]['month'],
+                         $myprojects[$value]['formalname']
+                    );
+               } else {
+                    //do nothing
+               }
+               break; // shojuld this be inside the if?
+            case 'fon':
+                $wgOut->addHTML("<h3>FON</h3>");
+                break;
+          }
+     }
 }
 //end loadTempoTwoData()
 
-function outputTempoTwoProject($key, $project_id, $retLast, $retAmount, $hours, $mtd_rept, $month, $longname) {
+function outputTempoTwoProject($key, $project_id, $retLast, $retAmount, $hours, $mtd_rept, $month, $longname,$nPortion) {
      global $wgOut;
      include 'cred.inc'; // has the slug we need
+     if ($nPortion > 0) {
+          $nChunk = '<div id="nportion">N' . $nPortion . '</div>';
+     } else {
+          $nChunk = "<!-- no nPortion -->";
+     }
+
+     $month = '<span id="whatmonth">(' . strtolower($month) . ')</span>';
      $wgOut->addHTML('<div id="' . $key . '">
                          <div class="left-column">
                               <div class="name">
-                                   <a href="' . $temposlug . $mtd_rept . '" title="' . $longname . '">' . $key . '</a> ' . $month . '
+                                   <a href="' . $temposlug . $mtd_rept . '" title="' . $longname . '">' . $key . '</a> 
                               </div>
                               <div class="normal">' . $retLast . '</div>
                          </div>
                          <div class="bar">
-                              <div class="hours">' . $hours . '</div>
+                              <div class="hours">' . $hours . ' ' . $month . '</div>
                               <div class="bar-amount" id="' . $key . '-bar"></div>
                          </div>
                          <div class="thisMonth">' . $retAmount . '</div>
-                    </div> <!-- /' . $key . ' -->
-                    <div style="clear:both"></div>');
+                    </div> <!-- /' . $key . ' -->' . 
+                    $nChunk . 
+                    '<div style="clear:both"></div>');
 }
 
+function outputTempotwoProjectIndividual($key, $project_id, $retAmount, $hours, $month, $longname) {
+     global $wgOut;
+     include 'cred.inc'; // has the slug we need
 
-function drawTempoTwoTherms($retAmount,$project_id,$hours,$name) {
+     $month = '<span id="whatmonth">(' . strtolower($month) . ')</span>';
+     $wgOut->addHTML(
+          '<div id="' . $key . '">
+                <div class="left-column">
+                    <div class="name">
+                         <span>' . $key . '</span> 
+                    </div>
+               </div>
+               <div class="bar">
+                    <div class="hours">' . $hours . ' ' . $month . '</div>
+                    <div class="bar-amount" id="' . $key . '-bar"></div>
+               </div>
+               <div class="thisMonth">' . $retAmount . '</div>
+          </div> <!-- /' . $key . ' -->' . 
+          '<div style="clear:both"></div>'
+     );
+}
+
+/* drawTempotwoTherms() */
+function drawTempotwoTherms($retAmount,$project_id,$hours,$name,$nPortion) {
      global $wgOut;
 
      $wgOut->addHTML('<script>$(document).ready(function() {');
-     calcTempoTwoBar($retAmount, $project_id, $hours,$name);
+     calcTempotwoBar($retAmount, $project_id, $hours,$name,$nPortion);
      $wgOut->addHTML('});</script>');
 }
 
-
-function calcTempoTwoBar($retAmount, $project_id, $hours,$name) {
+/* calcTempotwoBar() */
+function calcTempotwoBar($retAmount, $project_id, $hours,$name,$nPortion) {
      global $wgOut;
      
      // $hours = $myprojects[$key];
@@ -308,12 +319,24 @@ function calcTempoTwoBar($retAmount, $project_id, $hours,$name) {
      if($perc > 100)
           $perc = 100;
 
-     if($perc > 66) 
+     if($perc > 66) {
           $color = "#900";
-     else if ($perc > 33)
-          $color = "#990";
-     else
-          $color = "#447b44";
+     } else if ($perc > 33) {
+          if ($nPortion > 0) {
+               $color = "#996B00";
+          } else {
+               $color = "#990";
+          }
+          
+     } else {
+          if ($nPortion > 0) {
+               $color = "#58CE58";
+          } else {
+               $color = "#447b44";  
+          }
+     }
+
+    
 
      $wgOut->addHTML('
           var ' . $name . '_perc = "' . $perc . '%";
