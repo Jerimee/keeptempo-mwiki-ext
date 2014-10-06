@@ -11,8 +11,8 @@ $wgExtensionCredits[ 'specialpage' ][] = array(
         'path' => __FILE__,
         'name' => 'Tempotwo',
         'author' => 'Richir Outreach',
-        'url' => 'http://www.richiroutreach.com',
-        'descriptionmsg' => 'no description',
+        'url' => 'http://www.reddit.com',
+        'descriptionmsg' => 'is amazing',
         'version' => '0.0.2',
 );
  
