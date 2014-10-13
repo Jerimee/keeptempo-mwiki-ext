@@ -56,3 +56,13 @@
      font-size:0.4em;
      color:#555555;
 }
+
+.mw-special-Tempotwo #contentSub {
+display:none;
+}
+
+.mw-special-Tempotwo .first-column {
+                    float: left;
+                    text-align: center;
+                    width: 65px;
+}

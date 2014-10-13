@@ -91,9 +91,12 @@ function loadTempoTwoData() {
                     //for everything in myprojects
                     //look for a key with $thematchedprojectid
                     if ($value['project_id'] == $thematchedprojectid) {
-                      //echo $mykey . '<br>';
-                      $myprojects[$mykey]['hours'] += $data[$i]->hours;
-                      //echo $myprojects[$mykey]['hours'] . '<br><br>';
+                         $myprojects[$mykey]['hours'] += $data[$i]->hours;
+                         if ($value['nicolePortion'] > 0) {
+                              if ($data[$i]->user_id == 9182) {
+                                   $myprojects[$mykey]['nicoleHours'] += $data[$i]->hours;
+                              }
+                         }
                     }
                }
           }
@@ -104,12 +107,6 @@ function loadTempoTwoData() {
      // css
      $styleurl = "/extensions/Tempotwo/modules/tempostyles.css";
      $wgOut->addHTML('<link type="text/css" rel="stylesheet" media="all" href="' . $styleurl . '" /><!-- dumb -->');
-     // draw teh thermometers
-     foreach ($myprojects as $key => $value) {
-          if($key !== false) {
-               drawTempotwoTherms($value['retAmount'], $value['project_id'], $value['hours'], $key,$value['nicolePortion']);
-          }
-     }
 
      //$wgOut->addHTML('<div style="background-color:pink">x</div>');
      $wgOut->addHTML("<h2>Projects</h2>");
@@ -209,6 +206,22 @@ function loadTempoTwoData() {
           }
      }
 
+     // draw teh thermometers
+     // YO THIS NEEDS TO BE IT OWN FUNCTION TO RUN WHENEVER 
+     //  outputTempoTwoProject or  outputTempoTwoProjectIndividual is rung
+     $myi = 0;
+     foreach ($myprojects as $key => $value) {
+          $myi++;
+          if($key !== false) {
+               if (array_key_exists('nicoleHours', $value)) {
+                    //$wgOut->addHTML('AGAIN nPort is ' . $nPortion . ' and nHours is ' . $nHours . '!<br>x<br>x<br><hr>');
+                    drawTempotwoTherms($value['retAmount'], $value['project_id'], $value['hours'], $key,$value['nicolePortion'],$value['nicoleHours'],$myi );
+               }else{
+                    drawTempotwoTherms($value['retAmount'], $value['project_id'], $value['hours'], $key,0,0,$myi);
+               }
+          }
+     }
+
      $wgOut->addHTML("<span class=\"personhdr\">Ppl not found</span>");
      $wgOut->addHTML("<div class=\"personentry\">");
      $bigarray = $myppl;
@@ -226,19 +239,23 @@ function loadTempoTwoData() {
             case 'cc':
                $nicole = $myprojects[$value]['nicolePortion'];
                if ($nicole>0) {
-                    $wgOut->addHTML("<h3>Courage</h3>");
-                    $wgOut->addHTML("<p>Nicole should not have more than " . $nicole . ".</p>");
-                    $nicolex = 0;
-                    $wgOut->addHTML("<p>Nicole has " . $nicolex . ".</p>");
-                    $justNicoleHours = $myprojects[$value]['hours'];
-                    outputTempotwoProjectIndividual(
-                         $value,
-                         $myprojects[$value]['project_id'],
-                         $myprojects[$value]['nicolePortion'],
-                         $justNicoleHours,
-                         $myprojects[$value]['month'],
-                         $myprojects[$value]['formalname']
-                    );
+                    if (array_key_exists('nicoleHours', $myprojects[$value])) {
+                         //$wgOut->addHTML("<p>Yay! " . $myprojects[$value]['nicoleHours'] . "</p>");
+                         $wgOut->addHTML("<h3>Courage</h3>");
+                         $wgOut->addHTML("<p>Nicole should not have more than " . $nicole . ".</p>");
+                         $justNicoleHours = $myprojects[$value]['nicoleHours'];
+                         $wgOut->addHTML("<p>Nicole has " . $justNicoleHours . ".</p>");
+                         outputTempotwoProjectIndividual(
+                              $value,
+                              $myprojects[$value]['project_id'],
+                              $nicole,
+                              $justNicoleHours,
+                              $myprojects[$value]['month'],
+                              $myprojects[$value]['formalname']
+                         );
+                    } else {
+                         $wgOut->addHTML("<p>error; something went wrong...</p>");
+                    }
                } else {
                     //do nothing
                }
@@ -248,11 +265,15 @@ function loadTempoTwoData() {
                 break;
           }
      }
+
+
 }
 //end loadTempoTwoData()
 
 function outputTempoTwoProject($key, $project_id, $retLast, $retAmount, $hours, $mtd_rept, $month, $longname,$nPortion) {
      global $wgOut;
+     global $jjrcounter;
+     $jjrcounter++;
      include 'cred.inc'; // has the slug we need
      if ($nPortion > 0) {
           $nChunk = '<div id="nportion">N' . $nPortion . '</div>';
@@ -262,6 +283,9 @@ function outputTempoTwoProject($key, $project_id, $retLast, $retAmount, $hours, 
 
      $month = '<span id="whatmonth">(' . strtolower($month) . ')</span>';
      $wgOut->addHTML('<div id="' . $key . '">
+                         <div class="first-column">
+                              <span class="number">x ' . $jjrcounter . '</span>
+                         </div>
                          <div class="left-column">
                               <div class="name">
                                    <a href="' . $temposlug . $mtd_rept . '" title="' . $longname . '">' . $key . '</a> 
@@ -280,19 +304,24 @@ function outputTempoTwoProject($key, $project_id, $retLast, $retAmount, $hours, 
 
 function outputTempotwoProjectIndividual($key, $project_id, $retAmount, $hours, $month, $longname) {
      global $wgOut;
+     global $jjrcounter;
+     $jjrcounter++;
      include 'cred.inc'; // has the slug we need
 
      $month = '<span id="whatmonth">(' . strtolower($month) . ')</span>';
      $wgOut->addHTML(
           '<div id="' . $key . '">
+               <div class="first-column">
+                              <span class="number">x ' . $jjrcounter . '</span>
+               </div>
                 <div class="left-column">
                     <div class="name">
                          <span>' . $key . '</span> 
                     </div>
                </div>
                <div class="bar">
-                    <div class="hours">' . $hours . ' ' . $month . '</div>
-                    <div class="bar-amount" id="' . $key . '-bar"></div>
+                    <div class="hours indvhours">' . $hours . ' ' . $month . '</div>
+                    <div class="bar-amount" id="' . $key . '-indvbar"></div>
                </div>
                <div class="thisMonth">' . $retAmount . '</div>
           </div> <!-- /' . $key . ' -->' . 
@@ -301,55 +330,66 @@ function outputTempotwoProjectIndividual($key, $project_id, $retAmount, $hours, 
 }
 
 /* drawTempotwoTherms() */
-function drawTempotwoTherms($retAmount,$project_id,$hours,$name,$nPortion) {
+function drawTempotwoTherms($retAmount,$project_id,$hours,$name,$nPortion,$nHours,$count) {
      global $wgOut;
 
-     $wgOut->addHTML('<script>$(document).ready(function() {');
-     calcTempotwoBar($retAmount, $project_id, $hours,$name,$nPortion);
-     $wgOut->addHTML('});</script>');
+     if (($nPortion == 0)&&($nHours == 0)) {
+          $wgOut->addHTML('<script>$(document).ready(function() {');
+          calcTempotwoBar($retAmount, $project_id, $hours,$name,0,0,$count);
+          $wgOut->addHTML('});</script>');
+     } else {
+          $wgOut->addHTML('<!-- flag --><script>$(document).ready(function() {');
+          calcTempotwoBar($retAmount, $project_id, $hours,$name,$nPortion,$nHours,$count);
+          $wgOut->addHTML('});</script>');
+     }
 }
 
 /* calcTempotwoBar() */
-function calcTempotwoBar($retAmount, $project_id, $hours,$name,$nPortion) {
+function calcTempotwoBar($retAmount, $project_id, $hours,$name,$nPortion,$nHours,$count) {
      global $wgOut;
-     
-     // $hours = $myprojects[$key];
-     $perc =  $hours / $retAmount * 100;
 
+     // $hours = $myprojects[$key];
+     if (($nPortion == 0)&&($nHours == 0)) {
+          $perc =  $hours / $retAmount * 100;
+     } else {
+          // this code is very bad and not good
+          // what we are doing is skipping the first one because we
+          // that the first one is standard
+          // This approach is not at all sustainable - it will break
+          // the first time a var changes.
+          $perc =  $hours / $retAmount * 100;  
+     }
      if($perc > 100)
           $perc = 100;
 
      if($perc > 66) {
-          $color = "#900";
+               $color = "#900";
      } else if ($perc > 33) {
-          if ($nPortion > 0) {
-               $color = "#996B00";
+               if ($nPortion > 0) {
+                    $color = "#996B00";
+               } else {
+                    $color = "#990";
+               }
           } else {
-               $color = "#990";
-          }
-          
-     } else {
-          if ($nPortion > 0) {
-               $color = "#58CE58";
-          } else {
-               $color = "#447b44";  
-          }
+               if ($nPortion > 0) {
+                    $color = "#58CE58";
+               } else {
+                    $color = "#447b44";  
+               }
      }
-
-    
 
      $wgOut->addHTML('
           var ' . $name . '_perc = "' . $perc . '%";
-
+          console.log(' . $count. ');
           console.log(' . $project_id . ');
           console.log(' . $hours. ');
           console.log(' . $retAmount . ');
           console.log(' . $name . '_perc);
           console.log("--------------------------");
-
           $("#' . $name . '-bar").width(' . $name . '_perc);
           $("#' . $name . '-bar").css("background-color", "' . $color .'");
      ');
+
 }
 
 /* no comments makes this useless */
