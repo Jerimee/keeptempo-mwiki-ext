@@ -275,30 +275,23 @@ function outputTempoTwoProject($key, $project_id, $retLast, $retAmount, $hours, 
      global $jjrcounter;
      $jjrcounter++;
      include 'cred.inc'; // has the slug we need
-     if ($nPortion > 0) {
-          $nChunk = '<div id="nportion">N' . $nPortion . '</div>';
-     } else {
-          $nChunk = "<!-- no nPortion -->";
-     }
+     include 'firstcol.inc'; // has string with html
+     include 'hourscol.inc'; // has string with html
+     include 'leftcol.inc'; // has string with html
+     //if ($nPortion > 0) {
+     //     $nChunk = '<div id="nportion">N' . $nPortion . '</div>';
+     //} else {
+     //     $nChunk = "<!-- no nPortion -->";
+     //}
 
      $month = '<span id="whatmonth">(' . strtolower($month) . ')</span>';
-     $wgOut->addHTML('<div id="' . $key . '">
-                         <div class="first-column">
-                              <span class="number">x ' . $jjrcounter . '</span>
-                         </div>
-                         <div class="left-column">
-                              <div class="name">
-                                   <a href="' . $temposlug . $mtd_rept . '" title="' . $longname . '">' . $key . '</a> 
-                              </div>
-                              <div class="normal">' . $retLast . '</div>
-                         </div>
+     $wgOut->addHTML('<div id="' . $key . '" class="mygraph">' . $firstcol . $leftcol .'
                          <div class="bar">
                               <div class="hours">' . $hours . ' ' . $month . '</div>
                               <div class="bar-amount" id="' . $key . '-bar"></div>
                          </div>
-                         <div class="thisMonth">' . $retAmount . '</div>
+                         ' . $hourscol . '
                     </div> <!-- /' . $key . ' -->' . 
-                    $nChunk . 
                     '<div style="clear:both"></div>');
 }
 
@@ -307,23 +300,17 @@ function outputTempotwoProjectIndividual($key, $project_id, $retAmount, $hours, 
      global $jjrcounter;
      $jjrcounter++;
      include 'cred.inc'; // has the slug we need
-
+     include 'firstcol.inc'; // has string with html
+     include 'hourscol.inc'; // has string with html
+     include 'leftcol.inc'; // has string with html
      $month = '<span id="whatmonth">(' . strtolower($month) . ')</span>';
      $wgOut->addHTML(
-          '<div id="' . $key . '">
-               <div class="first-column">
-                              <span class="number">x ' . $jjrcounter . '</span>
-               </div>
-                <div class="left-column">
-                    <div class="name">
-                         <span>' . $key . '</span> 
-                    </div>
-               </div>
+          '<div id="' . $key . '">' . $firstcol . $leftcol . '
                <div class="bar">
                     <div class="hours indvhours">' . $hours . ' ' . $month . '</div>
                     <div class="bar-amount" id="' . $key . '-indvbar"></div>
                </div>
-               <div class="thisMonth">' . $retAmount . '</div>
+               ' . $hourscol . '
           </div> <!-- /' . $key . ' -->' . 
           '<div style="clear:both"></div>'
      );

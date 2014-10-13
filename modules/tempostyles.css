@@ -8,13 +8,13 @@
                .mw-special-Tempotwo .left-column {
                     float: left;
                     text-align: center;
-                    width: 65px;
+                    width: 50px;
                }
 
                .mw-special-Tempotwo .bar {
                     float: left;
                     font-size: 1.5em;
-                    margin: 5px 15px 15px;
+                    margin: 5px 5px 15px;
                     width: 400px;
                     text-align: center;
                     border: 1px solid #000;
@@ -47,10 +47,18 @@
                     background-color: #EEEEEE;
                }
 
-.mw-special-Tempotwo .left-column .normal {
-     color:#447B44;
-     font-size:0.8em;
+.mw-special-Tempotwo .hours-column {
+     width: 65px;
+     display: inline-block;
 }
+
+.mw-special-Tempotwo .hours-column .normal {
+     color:#558B55;
+     font-size:0.7em;
+}
+
+
+.mw-special-Tempotwo .hours-column .normal::before,.mw-special-Tempotwo .hours-column .normal::after { content: "_";}
 
 #whatmonth {
      font-size:0.4em;
@@ -63,6 +71,14 @@ display:none;
 
 .mw-special-Tempotwo .first-column {
                     float: left;
-                    text-align: center;
-                    width: 65px;
+                    text-align: left;
+                    width: 80px;
+                    height:45px;
+                    text-transform: uppercase;
+                    font-weight:bold;
+                    vertical-align:middle;
+                    display: table-cell;
+}
+
+.mw-special-Tempotwo .first-column span { 
 }
