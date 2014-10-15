@@ -123,7 +123,8 @@ function loadTempoTwoData() {
                $myprojects[$value]['report_id'],
                $myprojects[$value]['month'],
                $myprojects[$value]['formalname'],
-               $myprojects[$value]['nicolePortion']
+               $myprojects[$value]['firstlead'],
+               $myprojects[$value]['secondlead']
           );
      }
 
@@ -140,6 +141,8 @@ function loadTempoTwoData() {
                $myprojects[$value]['report_id'],
                $myprojects[$value]['month'],
                $myprojects[$value]['formalname'],
+               $myprojects[$value]['firstlead'],
+               $myprojects[$value]['secondlead'],
                0
           );
      }
@@ -251,7 +254,9 @@ function loadTempoTwoData() {
                               $nicole,
                               $justNicoleHours,
                               $myprojects[$value]['month'],
-                              $myprojects[$value]['formalname']
+                              $myprojects[$value]['formalname'],
+                              $myprojects[$value]['firstlead'],
+                              $myprojects[$value]['secondlead']
                          );
                     } else {
                          $wgOut->addHTML("<p>error; something went wrong...</p>");
@@ -270,7 +275,7 @@ function loadTempoTwoData() {
 }
 //end loadTempoTwoData()
 
-function outputTempoTwoProject($key, $project_id, $retLast, $retAmount, $hours, $mtd_rept, $month, $longname,$nPortion) {
+function outputTempoTwoProject($key, $project_id, $retLast, $retAmount, $hours, $mtd_rept, $month, $longname,$firstlead,$secondlead) {
      global $wgOut;
      global $jjrcounter;
      $jjrcounter++;
@@ -295,7 +300,7 @@ function outputTempoTwoProject($key, $project_id, $retLast, $retAmount, $hours, 
                     '<div style="clear:both"></div>');
 }
 
-function outputTempotwoProjectIndividual($key, $project_id, $retAmount, $hours, $month, $longname) {
+function outputTempotwoProjectIndividual($key, $project_id, $retAmount, $hours, $month, $longname,$firstlead,$secondlead) {
      global $wgOut;
      global $jjrcounter;
      $jjrcounter++;
