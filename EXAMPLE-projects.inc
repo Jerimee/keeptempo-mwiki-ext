@@ -1,4 +1,10 @@
 <?php
+/*
+* the first value (ex "aaa") is the key and namecode of the project
+* the project_id is a code for that project you get from tempo
+* the rest set as desired
+*/
+
 $myprojects = array(
           "aaa" => array(
                "project_id" => 10000,
